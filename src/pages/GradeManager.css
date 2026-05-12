@@ -38,6 +38,7 @@
 .grade-section-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--color-primary-light);
@@ -59,6 +60,27 @@
     font-weight: 600;
     padding: 0.2rem 0.6rem;
     border-radius: 1rem;
+}
+
+.grade-section-delete {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.grade-section-delete:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
 }
 
 /* Card Grid */

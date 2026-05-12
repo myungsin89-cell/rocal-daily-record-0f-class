@@ -297,13 +297,28 @@ const GradeManager = () => {
     const handleDeleteGrade = (e, gradeId) => {
         e.stopPropagation();
         if (!window.confirm('이 성적을 삭제하시겠습니까?')) return;
-
-        setGradeData(prev => {
-            const newData = { ...prev };
-            delete newData[gradeId];
-            return newData;
-        });
+        setGradeData(prev => { const n = { ...prev }; delete n[gradeId]; return n; });
     };
+
+    const handleDeleteGroup = (e, groupId) => {
+        e.stopPropagation();
+        if (!window.confirm('이 그룹과 그룹 안의 모든 성적을 삭제하시겠습니까?')) return;
+
+        setGradeGroups(prev => prev.filter(group => group.id !== groupId));
+        setGradeData(prev => {
+            const next = {};
+            Object.entries(prev).forEach(([gradeId, grade]) => {
+                if (grade.groupId !== groupId) next[gradeId] = grade;
+            });
+            return next;
+        });
+
+        if (activeGradeId && gradeData[activeGradeId]?.groupId === groupId) {
+            setActiveGradeId(null);
+            setViewMode('list');
+        }
+    };
+
 
     // 6. Delete Criteria
     const handleDeleteCriteria = (criteriaId) => {
@@ -524,6 +539,15 @@ const GradeManager = () => {
                                     <div className="grade-section-title">
                                         {group.name}
                                         <span className="grade-section-count">{groupGrades.length}</span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                                        <button
+                                            className="grade-section-delete"
+                                            onClick={(e) => handleDeleteGroup(e, group.id)}
+                                            title="그룹 삭제"
+                                        >
+                                            ×
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="grade-grid">
